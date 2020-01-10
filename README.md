@@ -57,6 +57,10 @@ in_tail removes untracked file position during startup phase. It means the conte
 
 ## Changelog
 
+### 1.3
+
+* Updated packages to newest stable versions
+
 ### 1.2
 
 * Introduced new ENV variable GELF_PROTOCOL for protocol selection. Valid values are "udp" or "tcp". This requires a update of you configmap from earlier verisons

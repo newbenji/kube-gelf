@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 LABEL maintainer "Joakim Karlsson <joakim@roffe.nu"
-LABEL Description="Fluentd docker image" Vendor="roffe.nu" Version="1.2"
+LABEL Description="Fluentd docker image" Vendor="roffe.nu" Version="1.3"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
