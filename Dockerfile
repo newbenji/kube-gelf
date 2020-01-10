@@ -40,8 +40,8 @@ RUN apt-get update \
 RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
  && wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_$dpkgArch \
  && chmod +x /usr/bin/dumb-init \
- && wget -O /tmp/jemalloc-JE_MALLOC_VERSION.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/JE_MALLOC_VERSION/jemalloc-5.2.1.tar.bz2 \
- && cd /tmp && tar -xjf jemalloc-JE_MALLOC_VERSION.tar.bz2 && cd jemalloc-JE_MALLOC_VERSION/ \
+ && wget -O /tmp/jemalloc-${JE_MALLOC_VERSION}.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/${JE_MALLOC_VERSION}/jemalloc-5.2.1.tar.bz2 \
+ && cd /tmp && tar -xjf jemalloc-${JE_MALLOC_VERSION}.tar.bz2 && cd jemalloc-${JE_MALLOC_VERSION}/ \
  && ./configure && make \
  && mv lib/libjemalloc.so.2 /usr/lib \
  && apt-get purge -y --auto-remove \
