@@ -27,6 +27,8 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
  && update-ca-certificates \
  && echo 'gem: --no-document' >> /etc/gemrc \
+ && gem install \
+    tzinfo:1.2.6 \
     fluent-plugin-gelf-hs:1.0.8 \
     fluent-plugin-kubernetes_metadata_filter:1.0.0 \
     fluent-plugin-kubernetes_metadata_filter:2.4.1 \
