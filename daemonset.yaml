@@ -20,7 +20,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
       - name: agent
-        image: roffe/kube-gelf:latest
+        image: kube-gelf:latest
         env:
         - name: GELF_HOST
           valueFrom:
@@ -54,6 +54,15 @@ spec:
         - name: kube-gelf-config
           mountPath: /fluentd/etc/fluent.conf
           subPath: fluent.conf
+        - name: kube-gelf-config
+          mountPath: /fluentd/etc/certs/graylogCA.pem
+          subPath: graylogCA.pem
+        - name: kube-gelf-certificates
+          mountPath: /fluentd/etc/certs/graylog_client.crt
+          subPath: graylog_client.crt
+        - name: kube-gelf-certificates
+          mountPath: /fluentd/etc/certs/graylog_client.key
+          subPath: graylog_client.key
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Exists
@@ -71,6 +80,16 @@ spec:
           items:
           - key: fluent.conf
             path: fluent.conf
+          - key: graylogCA.pem
+            path: graylogCA.pem
+      - name: kube-gelf-certificates
+        secret:
+          secretName: kube-gelf-certificates
+          items:
+          - key: graylog_client.crt
+            path: graylog_client.crt
+          - key: graylog_client.key
+            path: graylog_client.key
       - name: gelf-pos
         hostPath:
           path: /var/log/pos

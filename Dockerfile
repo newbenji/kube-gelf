@@ -1,11 +1,12 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 LABEL maintainer "Joakim Karlsson <joakim@roffe.nu"
-LABEL Description="Fluentd docker image" Vendor="roffe.nu" Version="1.2"
+LABEL Description="Fluentd docker image" Vendor="roffe.nu" Version="1.3"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV DUMB_INIT_SETSID 0
-ENV DUMB_INIT_VERSION=1.2.0
+ENV DUMB_INIT_VERSION=1.2.2
+ENV JE_MALLOC_VERSION=5.2.1
 
 ENV FLUENTD_CONF="fluent.conf"
 ENV FLUENTD_OPT=""
@@ -27,19 +28,22 @@ RUN apt-get update \
  && update-ca-certificates \
  && echo 'gem: --no-document' >> /etc/gemrc \
  && gem install \
-    fluent-plugin-gelf-hs:1.0.4 \
+    tzinfo:1.2.6 \
+    fluent-plugin-gelf-hs:1.0.8 \
     fluent-plugin-kubernetes_metadata_filter:1.0.0 \
-    fluent-plugin-systemd:0.3.1 \
-    fluentd:1.0.2 \
-    gelf:3.0.0 \
-    json:2.1.0 \
-    oj:2.18.3 \
-    fluent-plugin-record-modifier \
- && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
+    fluent-plugin-kubernetes_metadata_filter:2.4.1 \
+    fluent-plugin-systemd:1.0.2 \
+    fluentd:1.8.1 \
+    gelf:3.1.0 \
+    json:2.3.0 \
+    oj:3.10.0 \
+    fluent-plugin-record-modifier:2.1.0
+
+RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
  && wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_$dpkgArch \
  && chmod +x /usr/bin/dumb-init \
- && wget -O /tmp/jemalloc-4.4.0.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/4.4.0/jemalloc-4.4.0.tar.bz2 \
- && cd /tmp && tar -xjf jemalloc-4.4.0.tar.bz2 && cd jemalloc-4.4.0/ \
+ && wget -O /tmp/jemalloc-${JE_MALLOC_VERSION}.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/${JE_MALLOC_VERSION}/jemalloc-5.2.1.tar.bz2 \
+ && cd /tmp && tar -xjf jemalloc-${JE_MALLOC_VERSION}.tar.bz2 && cd jemalloc-${JE_MALLOC_VERSION}/ \
  && ./configure && make \
  && mv lib/libjemalloc.so.2 /usr/lib \
  && apt-get purge -y --auto-remove \
