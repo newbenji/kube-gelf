@@ -21,6 +21,7 @@ spec:
       containers:
       - name: agent
         image: kube-gelf:latest
+        imagePullPolicy: IfNotPresent
         env:
         - name: GELF_HOST
           valueFrom:
