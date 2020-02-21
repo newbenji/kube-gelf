@@ -32,6 +32,7 @@ RUN apt-get update \
     fluent-plugin-gelf-hs:1.0.8 \
     fluent-plugin-kubernetes_metadata_filter:1.0.0 \
     fluent-plugin-kubernetes_metadata_filter:2.4.1 \
+    fluent-plugin-concat:2.4.0 \
     fluent-plugin-systemd:1.0.2 \
     fluentd:1.8.1 \
     gelf:3.1.0 \
